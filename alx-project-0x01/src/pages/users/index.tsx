@@ -1,3 +1,5 @@
+import React from 'react';
+
 const Users: React.FC = () => {
    return (
       <div className="container mx-auto p-4">

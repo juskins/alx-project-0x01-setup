@@ -1,3 +1,5 @@
+import React from 'react';
+
 const Posts: React.FC = () => {
    return (
       <div className="container mx-auto p-4">
