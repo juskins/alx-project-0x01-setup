@@ -1,8 +1,8 @@
-import { UserData, UserModalProps } from "../../interfaces";
+import { UserProps, UserModalProps, Address, Company } from "../../interfaces";
 import React, { useState } from "react";
 
 const UserModal: React.FC<UserModalProps> = ({ onClose, onSubmit }) => {
-   const [user, setUser] = useState<UserData>({
+   const [user, setUser] = useState<Partial<UserProps>>({
       name: "",
       username: "",
       email: "",
@@ -34,7 +34,7 @@ const UserModal: React.FC<UserModalProps> = ({ onClose, onSubmit }) => {
          if (addressField === "street" || addressField === "suite" || addressField === "city" || addressField === "zipcode") {
             setUser((prevUser) => ({
                ...prevUser,
-               address: { ...prevUser.address, [addressField]: value }
+               address: { ...(prevUser.address || {}), [addressField]: value } as Address
             }));
          }
       }
@@ -43,7 +43,7 @@ const UserModal: React.FC<UserModalProps> = ({ onClose, onSubmit }) => {
          const companyField = name.split(".")[1];
          setUser((prevUser) => ({
             ...prevUser,
-            company: { ...prevUser.company, [companyField]: value }
+            company: { ...(prevUser.company || {}), [companyField]: value } as Company
          }));
       }
       // Handle top-level fields
@@ -54,7 +54,7 @@ const UserModal: React.FC<UserModalProps> = ({ onClose, onSubmit }) => {
 
    const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();
-      onSubmit(user);
+      onSubmit(user as UserProps);
       onClose();
    };
 
@@ -137,7 +137,7 @@ const UserModal: React.FC<UserModalProps> = ({ onClose, onSubmit }) => {
                         type="text"
                         id="address.street"
                         name="address.street"
-                        value={user.address.street}
+                        value={user.address?.street || ""}
                         onChange={handleChange}
                         className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="Enter street"
@@ -149,7 +149,7 @@ const UserModal: React.FC<UserModalProps> = ({ onClose, onSubmit }) => {
                         type="text"
                         id="address.suite"
                         name="address.suite"
-                        value={user.address.suite}
+                        value={user.address?.suite || ""}
                         onChange={handleChange}
                         className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="Enter suite"
@@ -161,7 +161,7 @@ const UserModal: React.FC<UserModalProps> = ({ onClose, onSubmit }) => {
                         type="text"
                         id="address.city"
                         name="address.city"
-                        value={user.address.city}
+                        value={user.address?.city || ""}
                         onChange={handleChange}
                         className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="Enter city"
@@ -173,7 +173,7 @@ const UserModal: React.FC<UserModalProps> = ({ onClose, onSubmit }) => {
                         type="text"
                         id="address.zipcode"
                         name="address.zipcode"
-                        value={user.address.zipcode}
+                        value={user.address?.zipcode || ""}
                         onChange={handleChange}
                         className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="Enter zipcode"
@@ -187,7 +187,7 @@ const UserModal: React.FC<UserModalProps> = ({ onClose, onSubmit }) => {
                         type="text"
                         id="company.name"
                         name="company.name"
-                        value={user.company.name}
+                        value={user.company?.name || ""}
                         onChange={handleChange}
                         className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="Enter company name"
@@ -199,7 +199,7 @@ const UserModal: React.FC<UserModalProps> = ({ onClose, onSubmit }) => {
                         type="text"
                         id="company.catchPhrase"
                         name="company.catchPhrase"
-                        value={user.company.catchPhrase}
+                        value={user.company?.catchPhrase || ""}
                         onChange={handleChange}
                         className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="Enter catchphrase"

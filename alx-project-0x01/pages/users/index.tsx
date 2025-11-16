@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import Header from '../../components/layout/Header';
 import UserCard from '../../components/common/UserCard';
 import UserModal from '../../components/common/UserModal';
-import { UserProps, UserData } from '../../interfaces';
+import { UserProps } from '../../interfaces';
 
 const Users: React.FC<{ posts: UserProps[] }> = ({ posts }) => {
    const [isModalOpen, setIsModalOpen] = useState(false);
    const [users, setUsers] = useState<UserProps[]>(posts);
 
-   const handleAddUser = (newUser: UserData) => {
+   const handleAddUser = (newUser: UserProps) => {
       const userWithId = {
          ...newUser,
          id: users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1
